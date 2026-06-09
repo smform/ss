@@ -17,9 +17,10 @@ from pathlib import Path
 import json
 
 
-DEFAULT_RECIPIENT = "civillss@nate.com"
-DEFAULT_SMTP_HOST = "smtp.mail.nate.com"
-DEFAULT_SMTP_PORT = 465
+# 🔴 구글 Gmail 및 알려주신 메일 주소로 기본값 수정 완료
+DEFAULT_RECIPIENT = "civillss@nate.com"  # 받는 사람 (네이트 메일로 유지)
+DEFAULT_SMTP_HOST = "smtp.gmail.com"     # 네이트에서 구글 SMTP 서버 주소로 변경
+DEFAULT_SMTP_PORT = 465                  # SSL 포트 465 유지
 DEFAULT_KEYWORDS = [
     "도로 개발",
     "주택 공급 개발",
@@ -364,12 +365,13 @@ def build_email_message(sender: str, recipient: str, subject: str, body: str) ->
 
 def load_smtp_config(env: dict[str, str] | None = None) -> SmtpConfig:
     source = env or os.environ
-    user = source.get("SMTP_USER", "civillss@nate.com")
+    # 🔴 기본 발신 계정을 네이트에서 알려주신 구글 메일 주소로 수정 완료
+    user = source.get("SMTP_USER", "civillss19@gmail.com")
     sender = source.get("SMTP_FROM", user)
     recipient = source.get("SMTP_TO", DEFAULT_RECIPIENT)
     password = source.get("SMTP_PASSWORD", "")
     if not password:
-        raise ConfigError("SMTP_PASSWORD is required. Put the Nate mail password or app password in .env.")
+        raise ConfigError("SMTP_PASSWORD is required. Put the Google app password in Settings > Secrets.")
 
     return SmtpConfig(
         host=source.get("SMTP_HOST", DEFAULT_SMTP_HOST),
