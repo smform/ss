@@ -160,7 +160,7 @@ def parse_naver_api_items(payload: dict, keyword: str, start: dt.date, end: dt.d
     return articles
 
 
-def search_articles_via_naver_api(start: dt.date, end: dt.date, max_articles: int = 20) -> list[Article]:
+def search_articles_via_naver_api(start: dt.date, end: dt.date, max_articles: int = 50) -> list[Article]:
     client_id = os.environ["NAVER_CLIENT_ID"]
     client_secret = os.environ["NAVER_CLIENT_SECRET"]
     headers = {
