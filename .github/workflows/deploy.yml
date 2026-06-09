@@ -2,18 +2,18 @@ name: Naver Dev News Auto Mailer
 
 on:
   schedule:
-    # ⏰ 한국 시간 기준 하루 2번 자동 실행 설정
-    # 1) 0 21 * * * -> 세계시 21시 0분 = 한국 시간 오전 6시 0분
-    # 2) 0 5 * * * -> 세계시 05시 0분 = 한국 시간 오후 2시 0분
+    # ⏰ 대한민국 시간(KST) 기준 하루 2번 정밀 자동 스케줄링 설정
+    # 1) 0 21 * * * -> 세계 표준시(UTC) 21시 = 한국 시간 다음날 오전 6시 0분
+    # 2) 0 5 * * * -> 세계 표준시(UTC) 05시 = 한국 시간 같은날 오후 2시 0분
     - cron: '0 21 * * *'
     - cron: '0 5 * * *'
-  workflow_dispatch: # 언제든 수동으로 발송할 수 있는 버튼 활성화
+  workflow_dispatch: # 수동 실행 버튼 활성화
 
 jobs:
   run-mailer:
     runs-on: ubuntu-latest
     env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true' # 💡 Node.js deprecation 경고 끄기 설정
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true' # Node.js 경고창 방지 설정
 
     steps:
       - name: Check out repository code
@@ -31,7 +31,6 @@ jobs:
 
       - name: Run Mailer Script
         env:
-          # 깃허브 안전 금고(Secrets)에 저장해두신 기존 비밀번호 값들을 그대로 매핑합니다.
           SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
           NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
           NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
